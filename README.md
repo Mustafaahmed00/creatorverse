@@ -1,12 +1,98 @@
-# React + Vite
+# Creatorverse
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern React CRUD app for sharing your favorite content creators. Built for CodePath WEB103 Prework, using React, Supabase, and a beautiful card-based UI.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- **View All Creators:** See a list of your favorite content creators, each displayed as a card.
+- **View Details:** Click a creator to see their full details, including name, description, image, and a link to their channel.
+- **Add Creator:** Add a new creator with name, URL, description, and optional image.
+- **Edit Creator:** Update any creator’s information with a user-friendly form.
+- **Delete Creator:** Remove a creator with a single click (with confirmation).
+- **Visit Channel:** Go directly to a creator’s channel/page.
+- **Responsive Design:** Works great on desktop and mobile.
+- **Visual Feedback:** Success/error messages, loading spinners, and clear button states.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 📸 Screenshots
+
+> _Add screenshots or a Loom/GIF walkthrough here!_
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend:** React, Vite, React Router
+- **Backend:** Supabase (Postgres)
+- **Styling:** Custom CSS
+
+---
+
+## 📝 Setup Instructions
+
+1. **Clone the repo:**
+   ```bash
+   git clone https://github.com/Mustafaahmed00/creatorverse.git
+   cd creatorverse
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Set up Supabase:**
+   - Create a project at [supabase.com](https://supabase.com)
+   - Create a `creators` table with columns: `name`, `url`, `description`, `imageURL`
+   - Copy your Supabase URL and API key into `src/client.js`
+  
+4. **Start the app:**
+   ```bash
+   npm run dev
+   ```
+   - Visit [http://localhost:5173](http://localhost:5173) (or the port shown in your terminal)
+
+---
+
+## ✅ Completed Features
+
+- [x] View all creators
+- [x] View single creator details
+- [x] Add a new creator
+- [x] Edit a creator
+- [x] Delete a creator
+- [x] Visit creator’s channel
+- [x] Responsive, modern UI
+- [x] Visual feedback for all actions
+
+---
+
+## 🌟 Stretch Features
+
+- [x] Card-based layout
+- [x] Image support for creators
+- [x] Loading spinners and error handling
+- [x] Success/error messages for all operations
+
+---
+
+## 📄 License
+
+MIT
+
+---
+
+## 👤 Author
+
+- [Mustafa Ahmed](https://github.com/Mustafaahmed00)
+
+---
+
+## 📣 Acknowledgements
+
+- [CodePath WEB103](https://www.codepath.org/)
+- [Supabase](https://supabase.com)
+- [React](https://react.dev)
