@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../client';
+import { FaYoutube, FaInstagram, FaTiktok, FaTwitch, FaTwitter, FaGlobe, FaUser, FaEdit, FaTrash } from 'react-icons/fa';
 
 const ViewCreator = () => {
   const { id } = useParams();
@@ -13,6 +14,8 @@ const ViewCreator = () => {
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
+  const [imageError, setImageError] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
     url: '',
@@ -41,6 +44,9 @@ const ViewCreator = () => {
             description: data.description || '',
             imageURL: data.imageURL || ''
           });
+          // Reset image states when creator data changes
+          setImageError(false);
+          setImageLoading(true);
         }
       } catch (err) {
         setError('An unexpected error occurred');
@@ -55,6 +61,52 @@ const ViewCreator = () => {
   const handleVisitChannel = () => {
     setVisitFeedback('Opening channel in new tab...');
     setTimeout(() => setVisitFeedback(''), 2000);
+  };
+
+  const handleImageError = () => {
+    setImageError(true);
+    setImageLoading(false);
+  };
+
+  const handleImageLoad = () => {
+    setImageLoading(false);
+    setImageError(false);
+  };
+
+  // Function to detect platform and return appropriate icon
+  const getPlatformIcon = (url) => {
+    const lowerUrl = url.toLowerCase();
+    if (lowerUrl.includes('youtube.com') || lowerUrl.includes('youtu.be')) {
+      return <FaYoutube className="platform-icon youtube" />;
+    } else if (lowerUrl.includes('instagram.com')) {
+      return <FaInstagram className="platform-icon instagram" />;
+    } else if (lowerUrl.includes('tiktok.com')) {
+      return <FaTiktok className="platform-icon tiktok" />;
+    } else if (lowerUrl.includes('twitch.tv')) {
+      return <FaTwitch className="platform-icon twitch" />;
+    } else if (lowerUrl.includes('twitter.com') || lowerUrl.includes('x.com')) {
+      return <FaTwitter className="platform-icon twitter" />;
+    } else {
+      return <FaGlobe className="platform-icon globe" />;
+    }
+  };
+
+  // Function to get platform name
+  const getPlatformName = (url) => {
+    const lowerUrl = url.toLowerCase();
+    if (lowerUrl.includes('youtube.com') || lowerUrl.includes('youtu.be')) {
+      return 'YouTube';
+    } else if (lowerUrl.includes('instagram.com')) {
+      return 'Instagram';
+    } else if (lowerUrl.includes('tiktok.com')) {
+      return 'TikTok';
+    } else if (lowerUrl.includes('twitch.tv')) {
+      return 'Twitch';
+    } else if (lowerUrl.includes('twitter.com') || lowerUrl.includes('x.com')) {
+      return 'Twitter/X';
+    } else {
+      return 'Website';
+    }
   };
 
   const handleEdit = () => {
@@ -273,7 +325,7 @@ const ViewCreator = () => {
                 className="submit-btn"
                 disabled={saving || deleting}
               >
-                {saving ? 'Saving...' : 'Save Changes'}
+                {saving ? '⏳ Updating...' : '✅ Update Creator'}
               </button>
               <button 
                 type="button" 
@@ -281,18 +333,46 @@ const ViewCreator = () => {
                 className="cancel-btn"
                 disabled={saving || deleting}
               >
-                Cancel
+                ❌ Cancel
               </button>
             </div>
           </form>
         ) : (
           // View Mode
           <>
-            <h1>{creator.name}</h1>
+            <div className="creator-header">
+              <h1>{creator.name}</h1>
+              <div className="platform-info-large">
+                {getPlatformIcon(creator.url)}
+                <span className="platform-name">{getPlatformName(creator.url)}</span>
+              </div>
+            </div>
             
-            {creator.imageURL && (
-              <img src={creator.imageURL} alt={creator.name} className="creator-image-large" />
-            )}
+            <div className="image-container-large">
+              {creator.imageURL && !imageError ? (
+                <>
+                  {imageLoading && (
+                    <div className="image-loading-large">
+                      <div className="loading-spinner"></div>
+                      <span>Loading image...</span>
+                    </div>
+                  )}
+                  <img 
+                    src={creator.imageURL} 
+                    alt={creator.name} 
+                    className="creator-image-large"
+                    onError={handleImageError}
+                    onLoad={handleImageLoad}
+                    style={{ display: imageLoading ? 'none' : 'block' }}
+                  />
+                </>
+              ) : (
+                <div className="placeholder-image-large">
+                  <FaUser className="placeholder-icon-large" />
+                  <span>No Image Available</span>
+                </div>
+              )}
+            </div>
             
             <p className="creator-description">{creator.description}</p>
             
@@ -304,7 +384,8 @@ const ViewCreator = () => {
                 className="creator-link-large"
                 onClick={handleVisitChannel}
               >
-                Visit {creator.name}'s Channel
+                {getPlatformIcon(creator.url)}
+                Visit {creator.name}'s {getPlatformName(creator.url)}
               </a>
               {visitFeedback && (
                 <div className="feedback-message success">
@@ -319,14 +400,14 @@ const ViewCreator = () => {
                 className="edit-btn"
                 disabled={saving || deleting}
               >
-                Edit Creator
+                <FaEdit /> Edit Creator
               </button>
               <button 
                 onClick={handleDelete} 
                 className="delete-btn"
                 disabled={saving || deleting}
               >
-                {deleting ? 'Deleting...' : 'Delete Creator'}
+                <FaTrash /> {deleting ? 'Deleting...' : 'Delete Creator'}
               </button>
             </div>
           </>

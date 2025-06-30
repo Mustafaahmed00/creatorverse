@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../client';
+import { FaPlus, FaYoutube, FaInstagram, FaTiktok, FaTwitch, FaTwitter, FaGlobe } from 'react-icons/fa';
 
 const AddCreator = () => {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ const AddCreator = () => {
 
   return (
     <div className="add-creator">
-      <h1>Add New Creator</h1>
+      <h1><FaPlus /> Add New Creator</h1>
       
       <div style={{
         backgroundColor: '#e7f3ff',
@@ -62,7 +63,7 @@ const AddCreator = () => {
       
       <form onSubmit={handleSubmit} className="creator-form">
         <div className="form-group">
-          <label htmlFor="name">Name *</label>
+          <label htmlFor="name">Creator Name *</label>
           <input
             type="text"
             id="name"
@@ -70,12 +71,21 @@ const AddCreator = () => {
             value={formData.name}
             onChange={handleChange}
             required
-            placeholder="Enter creator's name"
+            placeholder="e.g., MrBeast, PewDiePie, Ninja"
           />
         </div>
 
         <div className="form-group">
           <label htmlFor="url">Channel URL *</label>
+          <div style={{ marginBottom: '10px', fontSize: '0.9em', color: '#666' }}>
+            <FaYoutube style={{ color: '#ff0000', marginRight: '5px' }} />
+            <FaInstagram style={{ color: '#e4405f', marginRight: '5px' }} />
+            <FaTiktok style={{ color: '#000000', marginRight: '5px' }} />
+            <FaTwitch style={{ color: '#9146ff', marginRight: '5px' }} />
+            <FaTwitter style={{ color: '#1da1f2', marginRight: '5px' }} />
+            <FaGlobe style={{ color: '#007bff' }} />
+            Supported platforms: YouTube, Instagram, TikTok, Twitch, Twitter/X, and more!
+          </div>
           <input
             type="url"
             id="url"
@@ -83,7 +93,7 @@ const AddCreator = () => {
             value={formData.url}
             onChange={handleChange}
             required
-            placeholder="https://..."
+            placeholder="https://www.youtube.com/@MrBeast"
           />
         </div>
 
@@ -95,20 +105,35 @@ const AddCreator = () => {
             value={formData.description}
             onChange={handleChange}
             required
-            placeholder="Describe their content..."
+            placeholder="Describe what type of content they create, their style, why you like them..."
             rows="4"
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="imageURL">Image URL (optional)</label>
+          <label htmlFor="imageURL">Profile Image URL (optional)</label>
+          <div style={{ 
+            marginBottom: '10px', 
+            fontSize: '0.9em', 
+            color: '#666',
+            backgroundColor: '#f8f9fa',
+            padding: '10px',
+            borderRadius: '5px',
+            border: '1px solid #dee2e6'
+          }}>
+            💡 <strong>How to get a working image URL:</strong><br/>
+            • Right-click on their profile picture and select "Copy image address"<br/>
+            • Make sure the URL ends with .jpg, .png, .gif, or .webp<br/>
+            • Test the URL by pasting it in a new browser tab<br/>
+            • If the image doesn't load, try a different image source
+          </div>
           <input
             type="url"
             id="imageURL"
             name="imageURL"
             value={formData.imageURL}
             onChange={handleChange}
-            placeholder="https://... (optional)"
+            placeholder="https://example.com/profile-image.jpg (optional)"
           />
         </div>
 
